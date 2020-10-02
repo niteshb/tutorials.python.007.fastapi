@@ -1,0 +1,19 @@
+make
+    label: --vyabsg-null-label--
+        h, --vyabsg-null-alias--, -h, --help
+            --vyabsg-no-command--
+            label: help
+            snippet: This help message
+        main
+            label: main
+                run
+                    uvicorn main:app --reload
+                    label: run_server
+        hw
+            label: hello_world
+                run
+                    uvicorn helloWorld:app --reload
+                    label: run_server
+        make
+            label: make
+            python P:\@common\python\vyAliasBatchScriptGenerator\tests\main.py make.vyalias
