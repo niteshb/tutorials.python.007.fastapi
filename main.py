@@ -1,6 +1,7 @@
 from typing import Optional
 from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 import yfinance
@@ -21,23 +22,40 @@ def get_db():
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 def home(
         request: Request,
         db: Session = Depends(get_db),
+        forward_pe='',
+        dividend_yield='',
+        ma50=None,
+        ma200=None,
     ):
     """
     display the stock screener dashboard / homepage
     """
     stocks = db.query(Stock)
-    
+    if forward_pe:
+        stocks = stocks.filter(Stock.forward_pe <= forward_pe)
+    if dividend_yield:
+        stocks = stocks.filter(Stock.dividend_yield >= dividend_yield)
+    if ma50:
+        stocks = stocks.filter(Stock.price >= Stock.ma50)
+    if ma200:
+        stocks = stocks.filter(Stock.price >= Stock.ma200)
+
     return templates.TemplateResponse(
         "home.html", 
         {
             "request": request,
             "stocks": stocks,
+            "dividend_yield": dividend_yield,
+            "forward_pe": forward_pe,
+            "ma50": ma50,
+            "ma200": ma200,
         },
     )
 

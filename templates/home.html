@@ -1,27 +1,46 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="ui input">
-    <input type="text" placeholder="P/E Ratio">
-  </div>
-  <div class="ui input">
-    <input type="text" placeholder="Dividend Yield">
-  </div>
-  <div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 50 day MA</label>
-  </div>
-  <div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 200 day MA</label>
-  </div>
-  <button class="ui button primary">
-    Filter
-  </button>
-  <button class="ui button" onclick="showModal()">
-    Add Symbols
-  </button>
-  
+  <form id="form-filter">
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <div class="ui fluid input">
+          <input name="forward_pe" type="text" placeholder="P/E Ratio" value="{{ forward_pe }}">
+        </div>
+      </div>
+      <div class="four wide column">
+        <div class="ui fluid input">
+          <input name="dividend_yield" type="text" placeholder="Dividend Yield" value="{{ dividend_yield }}">
+        </div>
+        </div>
+      <div class="four wide column middle aligned">
+        <div class="ui checkbox">
+          <input name="ma50" type="checkbox" {% if ma50 %} checked {% endif %}>
+          <label>Above 50 day MA</label>
+        </div>
+        </div>
+      <div class="four wide column middle aligned">
+        <div class="ui checkbox">
+          <input name="ma200" type="checkbox" {% if ma200 %} checked {% endif %}>
+          <label>Above 200 day MA</label>
+        </div>
+      </div>
+    </div>
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="two column row">
+          <div class="column">
+            <button type="submit" class="ui button primary" id="btn-filter">Filter</button>
+            <div id="btn-clear" class="ui button" onclick="clearFilters();">Clear</div>
+          </div>
+          <div class="column">
+            <div id="btn-add-stocks" class="ui button green right floated" onclick="showModal()">Add Symbols</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <table class="ui celled table">
     <thead>
         <tr>
@@ -70,6 +89,16 @@
   <script>
     function showModal() {
       $('.ui.modal').modal('show');
+    }
+    function clearFilters() {
+      $('#form-filter').find("input[type=text], textarea").val("");
+      $('#form-filter').find("input[type=password]").val("");
+      cbs = $('#form-filter').find("input[type=checkbox]");
+      for (i=0;i<cbs.length;i++) {
+        cb = cbs[i];
+        cb.checked = false;
+      }
+
     }
     $(document).ready(function() {
       $('#save').click( () => {

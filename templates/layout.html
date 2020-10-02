@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-    <title>Stock Screener</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <title>Stock Screener</title>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div class="ui container">
-        <h2>Stock Screener</h2>
-        <!--div class="ui three item menu">
-            <a class="active item">Editorials</a>
-            <a class="item">Reviews</a>
-            <a class="item">Upcoming Events</a>
-        </div-->
-          
-        {% block content %}
-        {% endblock %}
-        </div>
+  <div class="ui container">
+    <h2>Fast API Stock Screener</h2>
+    {% block content %}
+    {% endblock %}
+
+    <h3>FastAPI and related tools Functionality Used</h3>
+    <ul>
+      <li>Methods: GET, POST</li>
+      <li>Filters</li>
+      <li>BackgroundTasks, async functions</li>
+      <li>Static files</li>
+      <li>Ajax calls</li>
+    </ul>
+    <h3>Python Modules Used</h3>
+    <ul>
+      <li>fastapi</li>
+      <li>uvicorn</li>
+      <li>jinja2</li>
+      <li>yfinance</li>
+      <li>sqlalchemy</li>
+      <li>pydantic</li>
+      <li>lxml</li>
+      <li>aiofiles</li>
+      <li>pytest</li>
+      <li>typing</li>
+      <li>sqlite</li>
+    </ul>
+    <h3>Other Tools</h3>
+    <ul>
+      <li>VS Code</li>
+      <li>DB Browser for sqllite</li>
+      <li>Insomia for making requests</li>
+      <li>semantic-ui</li>
+      <li>jQuery</li>
+    </ul>
+  </div>
 </body>
 </html>
