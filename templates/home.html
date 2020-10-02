@@ -18,31 +18,76 @@
   <button class="ui button primary">
     Filter
   </button>
+  <button class="ui button" onclick="showModal()">
+    Add Symbols
+  </button>
   
-    
-<table class="ui celled table">
+  <table class="ui celled table">
     <thead>
-        <tr><th>Symbol</th><th>P/E</th><th>Dividend</th></tr>
+        <tr>
+          <th>Symbol</th>
+          <th>Price</th>
+          <th>Forward P/E</th>
+          <th>Forward EPS</th>
+          <th>Dividend Yield</th>
+          <th>50 Day Avg</th>
+          <th>200 Day Avg</th>
+        </tr>
     </thead>
     <tbody>
-        <!--{ % % }
-        { % % }-->
-      <tr>
-        <td data-label="Name">James</td>
-        <td data-label="Age">24</td>
-        <td data-label="Job">Engineer</td>
-      </tr>
-      <tr>
-        <td data-label="Name">Jill</td>
-        <td data-label="Age">26</td>
-        <td data-label="Job">Engineer</td>
-      </tr>
-      <tr>
-        <td data-label="Name">Elyse</td>
-        <td data-label="Age">24</td>
-        <td data-label="Job">Designer</td>
-      </tr>
+      {% for stock in stocks %}
+        <tr>
+          <td>{{ stock.symbol }}</td>
+          <td>{{ stock.price }}</td>
+          <td>{{ stock.forward_pe }}</td>
+          <td>{{ stock.forward_eps }}</td>
+          <td>{{ stock.dividend_yield }}</td>
+          <td>{{ stock.ma50 }}</td>
+          <td>{{ stock.ma200 }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
-  
-{% endblock %}
+
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">Add stock symbol</div>
+    <div class="content">
+      <form class="ui form">
+        <div class="field">
+          <label>Enter Stock Symbol</label>
+          <textarea name="" id="symbols" cols="30" rows="10"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div id="save" class="ui positive right labeled icon button">
+        Add Symbols
+        <i class="plus icon"></i>
+      </div>
+    </div>
+  </div>
+  <script>
+    function showModal() {
+      $('.ui.modal').modal('show');
+    }
+    $(document).ready(function() {
+      $('#save').click( () => {
+        var symbols = $('#symbols').val();
+        console.log(symbols);
+        symbols = symbols.split('\n');
+        console.log(symbols);
+        for (var i=0;i<symbols.length;i++) {
+          console.log(symbols[i]);
+          $.ajax( {
+            url: '/stock',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({'symbol': symbols[i]}),
+            dataType: 'json'
+          })
+        }
+      });
+    });
+  </script>
+  {% endblock %}

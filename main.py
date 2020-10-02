@@ -24,15 +24,20 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
-def home(request: Request):
+def home(
+        request: Request,
+        db: Session = Depends(get_db),
+    ):
     """
     display the stock screener dashboard / homepage
     """
+    stocks = db.query(Stock)
+    
     return templates.TemplateResponse(
         "home.html", 
         {
             "request": request,
-            "somevar": 2,
+            "stocks": stocks,
         },
     )
 
@@ -51,6 +56,7 @@ def fetch_stock_data(id: int):
 
     db.add(stock)
     db.commit()
+    print('    Data fetched from Yahoo!Finance and saved for', stock.symbol)
 
 @app.post("/stock")
 async def create_stock(
